@@ -1,0 +1,18 @@
+{
+  "name": "restheart-blog-example",
+  "description": "An example HTML5 webapp for RESTHeart",
+  "version": "0.0.0",
+  "homepage": "https://www.restheart.org",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.3.x",
+    "angular-route": "1.3.x",
+    "angular-loader": "1.3.x",
+    "angular-mocks": "~1.3.x",
+    "angular-resource": "~1.3.x",
+    "angular-local-storage" : "0.1.4",
+    "html5-boilerplate": "~4.3.0",
+    "bootstrap": "3.3.0"
+  }
+}

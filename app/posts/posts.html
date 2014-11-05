@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="jumbotron text-center" style="background-color: rgb(194, 79, 79);color:white">
+            <h1>RESTHeart blog</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row" ng-hide="auth">
+        <div class="well well-lg" style="margin: 50px">
+            <p class="lead">not logged in</p>
+        </div>
+    </div>
+    
+    <div class="row" ng-show="auth">
+        <div ng-repeat="post in posts._embedded['rh:doc']">
+
+            <div class="col-sm-6">
+                <div class="well well-lg" >
+                    <div class="panel-body">
+                        <p class="lead"><a href="#posts/{{post._id}}">{{post.title}}</a></p>
+                        <p>published on {{formatDate(post._created_on)}}</p>
+                        <p>by <a href="https://twitter.com/ujibang">@Ujibang</a></p>
+                        <p>{{post.summary}}</p>
+
+                        <i class="glyphicon glyphicon-wrench"></i>
+                        <i class="glyphicon glyphicon-info-sign"></i>
+                        <i class="glyphicon glyphicon-stats"></i>
+
+                        <!--
+                        <p class="small">id: {{post._id}}</p>
+                        <p class="small">etag: {{post._etag}}</p>
+                        -->
+                    </div>
+                    <div class="footer pull-right">
+                        <a href="#posts/{{post._id}}">read more &rightarrow;<i class="icon-flash"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <ul class="pager" ng-show="auth">
+            <li ng-class="posts._links.previous == null ? 'disabled' : ''">
+                <a ng-show="currentPage > 1" ng-click="setCurrentPage(currentPage - 1)">Newer</a>
+                <span ng-show="currentPage === 1">Newer</span>
+            </li>
+            <li ng-class="posts._links.next == null ? 'disabled' : ''">
+                <a ng-show="currentPage < pages" ng-click="setCurrentPage(currentPage + 1)">Older</a>
+                <span ng-show="currentPage === pages">Older</span>
+            </li>
+            <li class="lead" style="margin-left: 20px">page {{currentPage}}/{{pages}}</li>
+        </ul>
+    </nav>
+</div>
