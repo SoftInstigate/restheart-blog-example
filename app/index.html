@@ -33,7 +33,6 @@
                             <li class="active"><a href="#"><i class="icon-thumbs-up"></i>Blog</a> </li>
                             <li><a href="docs/v0.9"><i class="icon-star"></i>Docs</a> </li>
                             <li class="disabled"><a href="#"><i class="icon-popup-1"></i>Download</a></li>
-                            <li ng-hide="auth"><a href="#" ng-click="login('YWRtaW46Y2hhbmdlaXQ=')">Login</a></li>
                             <li ng-show="auth"><a href="#" ng-click="logout()">Logout</a></li>
                         </ul>
                     </div>
@@ -50,9 +49,11 @@
         <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+        <script src="bower_components/angular-base64/angular-base64.min.js"></script>
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script src="app.js"></script>
         <script src="posts/posts.js"></script>
+        <script src="edit/edit.js"></script>
     </body>
 </html>

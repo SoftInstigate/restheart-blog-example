@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.posts', ['ngRoute'])
+angular.module('blogApp.posts', ['ngRoute'])
 
         .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
                 $routeProvider
@@ -48,33 +48,8 @@ angular.module('myApp.posts', ['ngRoute'])
                 });
             }])
 
-        .controller('PostsListCtrl', ['$scope', '$http', 'localStorageService', '$q', function ($scope, $http, localStorageService, $q) {
-                console.log('*************** PostsListCtrl');
-
-                var credentials = localStorageService.get('creds');
-
-                if (angular.isUndefined(credentials) || credentials === null)
-                {
-                    console.log("no credentials in local storage => unauthenticated   x");
-                    $scope.auth = false;
-                }
-                else
-                {
-                    console.log("credentials found in local storage => authenticated");
-                    $scope.auth = true;
-                }
-
+        .controller('PostsListCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
                 $scope.setCurrentPage = function (num) {
-                    var credentials = localStorageService.get('creds');
-
-                    if (angular.isUndefined(credentials) || credentials === null)
-                    {
-                        console.log("WARN: tried to get posts but not authenticated");
-                        return;
-                    }
-
-                    $http.defaults.headers.common["Authorization"] = 'Basic ' + credentials;
-
                     $scope.currentPage = num;
 
                     //promise to return
@@ -102,17 +77,13 @@ angular.module('myApp.posts', ['ngRoute'])
             }])
 
         .controller('PostDetailCtrl', ['$scope', '$routeParams', '$http', '$compile', 'localStorageService', '$q', function ($scope, $routeParams, $http, $compile, localStorageService, $q) {
-                console.log('*************** PostDetailCtrl');
-                        
                 var credentials = localStorageService.get('creds');
 
-                if (angular.isUndefined(credentials) || credentials === null)
-                {
-                    console.log('WARN: tried to get post but not logged in');
-                    return;
+                if (angular.isUndefined(credentials) || credentials === null) {
+                    $scope.auth = false;
+                } else {
+                    $scope.auth = true;
                 }
-
-                $http.defaults.headers.common["Authorization"] = 'Basic ' + credentials;
 
                 //promise to return
                 var deferred = $q.defer();

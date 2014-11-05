@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="jumbotron text-center" style="background-color: rgb(194, 79, 79);color:white">
+            <h1>RESTHeart blog</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row" ng-show="auth">
+        <div class="well well-lg" style="margin: 50px">
+            <p class="lead">Already logged in</p>
+            <p class="lead"><a href="#/posts">Back to posts</a></p>
+        </div>
+    </div>
+
+    <div class="col-xs-offset-4 col-xs-4">
+        <form class="form-signin" role="form" ng-hide="auth">
+            <h2 class="form-signin-heading">Sign in</h2>
+            <input ng-model="cred.id" type="text" class="form-control" placeholder="Id" required="true" autofocus="" style="margin-bottom: 5px">
+            <input ng-model="cred.pwd" type="password" class="form-control" placeholder="Password" required="true" style="margin-bottom: 5px">
+            <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login()">Sign in</button>
+        </form>
+        <p class="alert alert-danger" ng-show="authWrongCredentials">Wrong Credentials</p>
+        <p class="alert alert-danger" ng-show="authError">Network error</p>
+    </div>
+</div>
