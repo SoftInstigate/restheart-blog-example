@@ -81,7 +81,7 @@ application-logic-mounts:
       secured: false
       args:
           idm-implementation-class: com.softinstigate.restheart.security.impl.SimpleFileIdentityManager
-          idm-conf-file: ../etc/security-integrationtest.yml
+          idm-conf-file: ../../restheart-blog-example/restheart-security.yml
 
 ### security 
 
