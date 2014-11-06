@@ -58,6 +58,24 @@ mongo-servers:
 mongo-mounts:
     - what: "*"
       where: /
+      
+#### static web resources
+
+# static web resources to bound under the /_static URL.
+# 'what' property is the path of the directory containing the resources, either absolute (starting with /) or relative to the RESTHeart jar directory
+# if embedded is true, the resources are either included in the RESTHeart jar or under the classpath
+
+static-resources-mounts:
+    - what: browser
+      where: /browser
+      welcome-file: browser.html
+      secured: false
+      embedded: true
+    - what: ../../restheart-blog-example/app
+      where: /blog
+      welcome-file: index.html
+      secured: false
+      embedded: false
 
 #### application logic
 
