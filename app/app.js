@@ -15,6 +15,7 @@ angular.module('blogApp', [
                 //delete $httpProvider.defaults.headers.common["X-Requested-With"];
                 $httpProvider.defaults.headers.common["Accept"] = "application/hal+json";
                 $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
+                $httpProvider.defaults.headers.common["No-Auth-Challenge"] = "true";
                 
                 localStorageServiceProvider.setStorageType('sessionStorage');
             }]);

@@ -23,6 +23,7 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                 $httpProvider.defaults.withCredentials = true;
                 $httpProvider.defaults.headers.common["Accept"] = "application/hal+json";
                 $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
+                $httpProvider.defaults.headers.common["No-Auth-Challenge"] = "true";
             }])
 
         .config(['$compileProvider', function ($compileProvider) {
