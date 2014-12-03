@@ -3,6 +3,7 @@
 // Declare app level module which depends on views, and components
 angular.module('blogApp', [
     'ngRoute',
+    'blogApp.auth',
     'blogApp.posts',
     'blogApp.edit',
     'LocalStorageModule',
