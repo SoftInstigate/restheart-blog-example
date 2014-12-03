@@ -5,14 +5,24 @@
 </div>
 
 <div class="container">
-    <div class="row">
+    <!-- remove this when done -->
+    <div class="container" style="margin-top: 20px" ng-show="errorNotFound">
+        <div class="well">
+            <p class="lead">The db needs to be initialized.</p>
+            <p>Please execute the following commands:</p>
+            <p>Create the blog db: <code>curl -u admin:changeit -i -X PUT http://127.0.0.1:8080/data/blog -H "Content-Type: application/json"</code></p>
+            <p>Create the posts collection: <code>curl -u admin:changeit -i -X PUT http://127.0.0.1:8080/data/blog/posts -H "Content-Type: application/json"</code></p>
+        </div>
+    </div>
+
+    <div class="row" ng-hide="errorNotFound">
         <div ng-repeat="post in posts._embedded['rh:doc']">
 
             <div class="col-sm-6">
                 <div class="well well-lg" >
                     <div class="panel-body">
                         <p class="lead"><a href="#posts/{{post._id}}">{{post.title}}</a></p>
-                        <p>published on {{post._created_on | date}} by <strong>{{post.author}}</strong></p>
+                        <p>published on {{post._created_on| date}} by <strong>{{post.author}}</strong></p>
                         <p>{{post.summary}}</p>
                     </div>
                     <div class="footer pull-right">
@@ -23,7 +33,7 @@
         </div>
     </div>
 
-    <nav>
+    <nav ng-hide="errorNotFound">
         <ul class="pager">
             <li ng-class="posts._links.previous == null ? 'disabled' : ''">
                 <a ng-show="currentPage > 1" ng-click="setCurrentPage(currentPage - 1)">Newer</a>
