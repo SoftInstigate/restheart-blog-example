@@ -6,7 +6,10 @@ Copy the restheart.jar binary in the blog application directory (this is to avoi
 
 ### Run the Application
 
-    java -server -jar restheart.jar restheart.yml
+Start MongoDB and RESTHeart (refer to [RESTHEART documentation](http://restheart.org/docs/get-up-and-running.html) for more help)
+
+    $ mongod --fork --syslog
+    $ java -server -jar restheart.jar restheart.yml
 
 The application is available at [http://127.0.0.1:8080/blog](http://127.0.0.1:8080/blog)
 
