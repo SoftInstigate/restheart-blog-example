@@ -1,5 +1,13 @@
 /* app css stylesheet */
 
+.pa0 {
+    padding: 0 !important;
+}
+
+.br0 {
+    border-radius: 0;
+}
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;

@@ -1,9 +1,7 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="jumbotron text-center" style="background-color: rgb(194, 79, 79);color:white">
-            <h1>RESTHeart blog</h1>
-        </div>
-    </div>
+    <ol class="breadcrumb">
+        <li><a class="active">Posts</a></li>
+    </ol>
 </div>
 
 <div class="container">
@@ -14,18 +12,8 @@
                 <div class="well well-lg" >
                     <div class="panel-body">
                         <p class="lead"><a href="#posts/{{post._id}}">{{post.title}}</a></p>
-                        <p>published on {{formatDate(post._created_on)}}</p>
-                        <p>by <a href="https://twitter.com/ujibang">@Ujibang</a></p>
+                        <p>published on {{post._created_on | date}} by <strong>{{post.author}}</strong></p>
                         <p>{{post.summary}}</p>
-
-                        <i class="glyphicon glyphicon-wrench"></i>
-                        <i class="glyphicon glyphicon-info-sign"></i>
-                        <i class="glyphicon glyphicon-stats"></i>
-
-                        <!--
-                        <p class="small">id: {{post._id}}</p>
-                        <p class="small">etag: {{post._etag}}</p>
-                        -->
                     </div>
                     <div class="footer pull-right">
                         <a href="#posts/{{post._id}}">read more &rightarrow;<i class="icon-flash"></i></a>

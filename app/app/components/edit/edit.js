@@ -4,10 +4,6 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
 
         .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
                 $routeProvider
-                        .when('/login', {
-                            templateUrl: 'app/components/edit/login.html',
-                            controller: 'LoginCtrl'
-                        })
                         .when('/login/:postId', {
                             templateUrl: 'app/components/edit/login.html',
                             controller: 'LoginCtrl'
@@ -26,36 +22,7 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                 $httpProvider.defaults.headers.common["No-Auth-Challenge"] = "true";
             }])
 
-        .config(['$compileProvider', function ($compileProvider) {
-                // configure new 'compile' directive by passing a directive
-                // factory function. The factory function injects the '$compile'
-                $compileProvider.directive('compile', function ($compile) {
-                    // directive factory creates a link function
-                    return function (scope, element, attrs) {
-                        scope.$watch(
-                                function (scope) {
-                                    // watch the 'compile' expression for changes
-                                    return scope.$eval(attrs.compile);
-                                },
-                                function (value) {
-                                    // when the 'compile' expression changes
-                                    // assign it into the current DOM
-                                    element.html(value);
-
-                                    // compile the new DOM and link it to the current
-                                    // scope.
-                                    // NOTE: we only compile .childNodes so that
-                                    // we don't get into infinite loop compiling ourselves
-                                    $compile(element.contents())(scope);
-                                }
-                        );
-                    };
-                });
-            }])
-
         .controller('PostEditCtrl', ['$scope', '$routeParams', '$http', '$compile', 'localStorageService', '$q', '$location', function ($scope, $routeParams, $http, $compile, localStorageService, $q, $location) {
-                console.log('*************** PostEditCtrl');
-
                 var credentials = localStorageService.get('creds');
 
                 if (angular.isUndefined(credentials) || credentials === null) {
@@ -63,6 +30,7 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     return;
                 }
 
+                $http.defaults.headers.common["Content-Type"] = "application/json";
                 $http.defaults.headers.common["Authorization"] = 'Basic ' + credentials;
 
                 //promise to return
@@ -78,4 +46,44 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     //resolve promise
                     deferred.resolve();
                 });
+
+                $scope.cancel = function () {
+                    if (angular.isUndefined($scope.post) || angular.isUndefined($scope.post._id)) // new post
+                        $location.path('/posts');
+                    else // existing post
+                        $location.path('/posts/' + $scope.post._id);
+                };
+
+                $scope.save = function () {
+                    if (!angular.isUndefined($scope.post) && !angular.isUndefined($scope.post._etag)) {
+                        $http.defaults.headers.common["If-Match"] = $scope.post._etag;
+                    }
+                    
+                    var request = $http.post('http://127.0.0.1:8080/data/blog/posts/', $scope.post);
+
+                    request.success(function (data, status, headers, config) {
+                        console.log("POST " + 'http://127.0.0.1:8080/data/blog/posts/');
+
+                        var loc = headers('Location');
+
+                        if (angular.isUndefined(loc)) { // existing post
+                            $location.path('/posts/' + $scope.post._id);
+                        } else { // new post
+                            $location.path(loc);
+                        }
+
+                        //resolve promise
+                        deferred.resolve();
+                    });
+
+                    request.error(function (data, status) {
+                        if (status === 412) {
+                            $scope.saveGhostWrite = true;
+                        } else {
+                            $scope.saveError = true;
+                        }
+                            
+                        console.log("save failed " + status);
+                    });
+                };
             }]);

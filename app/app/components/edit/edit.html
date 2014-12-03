@@ -7,28 +7,40 @@
 
 
 <div class="container">
-    <div class="row" style="margin-bottom: 20px">
-        <div class="input-group">
-            <span class="input-group-addon">#</span>
-            <input type="text" class="form-control" ng-model="post.title" placeholder="Title">
+    <form>
+        <div class="row" style="margin-bottom: 20px">
+            <div class="input-group">
+                <span class="input-group-addon">title</span>
+                <input type="text" class="form-control" ng-model="post.title" required="true" placeholder="Title">
+            </div>
         </div>
-    </div>
 
-    <div class="row" style="margin-bottom: 20px">
-        <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <input type="text" class="form-control" ng-model="post.author" placeholder="Author">
+        <div class="row" style="margin-bottom: 20px">
+            <div class="input-group">
+                <span class="input-group-addon">by</span>
+                <input type="text" class="form-control" ng-model="post.author" required="true" placeholder="Author">
+            </div>
         </div>
-    </div>
 
-    <div class="row" style="margin-bottom: 20px">
-        <div class="btn-group pull-right">
-            <button type="button" class="btn btn-danger" ng-click="cancel">Cancel</button>
-            <button type="button" class="btn btn-info">Save</button>
+        <div class="row" style="margin-bottom: 20px">
+            <p class="alert alert-danger" ng-show="saveError">Network error</p>
+            <p class="alert alert-danger" ng-show="saveGhostWrite">Conflict: the post has been modified and you cannot overwrite it, please reload.</p>
+            <div class="btn-group pull-right">
+                
+                <button type="submit" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+                <button type="button" class="btn btn-info" ng-click="save()">Save</button>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div text-angular ng-model="post.content"></div>
-    </div>
+        <div class="row" style="margin-bottom: 20px">
+            <div class="input-group">
+                <span class="input-group-addon">summary</span>
+                <textarea type="text" class="form-control" ng-model="post.summary" required="true" placeholder="Summary"></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div text-angular ng-model="post.content"></div>
+        </div>
+    </form>
 </div>

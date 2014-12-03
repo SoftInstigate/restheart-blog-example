@@ -7,8 +7,9 @@
 
 <div class="container">
     <div class="row">
-        <div class="text-center" style="background-color: rgb(194, 79, 79);color:white;padding:5px">
-            <h1>{{post.title}} <a ng-show="auth" ng-href="#edit/{{post._id}}"><i class="glyphicon glyphicon-wrench pull-right" style="margin-right: 20px"></i></a></h1>
+        <div class="text-center" >
+            <h1>{{post.title}} <a ng-show="auth" ng-href="#edit/{{post._id}}"><i class="glyphicon glyphicon-wrench" style="margin-left: 10px; font-size: 0.6em"></i></a></h1>
+            <p>published on {{post._created_on | date}} by <strong>{{post.author}}</strong></p>
         </div>
     </div>
     
