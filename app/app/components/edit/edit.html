@@ -7,18 +7,18 @@
 
 
 <div class="container">
-    <form>
+    <form name="editForm">
         <div class="row" style="margin-bottom: 20px">
             <div class="input-group">
                 <span class="input-group-addon">title</span>
-                <input type="text" class="form-control" ng-model="post.title" required="true" placeholder="Title">
+                <input type="text" class="form-control" ng-model="post.title" required="true" placeholder="Title required">
             </div>
         </div>
 
         <div class="row" style="margin-bottom: 20px">
             <div class="input-group">
                 <span class="input-group-addon">by</span>
-                <input type="text" class="form-control" ng-model="post.author" required="true" placeholder="Author">
+                <input type="text" class="form-control" ng-model="post.author" required="true" placeholder="Author required">
             </div>
         </div>
 
@@ -27,15 +27,15 @@
             <p class="alert alert-danger" ng-show="saveGhostWrite">Conflict: the post has been modified and you cannot overwrite it, please reload.</p>
             <div class="btn-group pull-right">
                 
-                <button type="submit" class="btn btn-danger" ng-click="cancel()">Cancel</button>
-                <button type="button" class="btn btn-info" ng-click="save()">Save</button>
+                <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+                <input type="submit" class="btn btn-info" ng-click="save()" ng-disabled="!editForm.$valid">
             </div>
         </div>
 
         <div class="row" style="margin-bottom: 20px">
             <div class="input-group">
                 <span class="input-group-addon">summary</span>
-                <textarea type="text" class="form-control" ng-model="post.summary" required="true" placeholder="Summary"></textarea>
+                <textarea type="text" class="form-control" ng-model="post.summary" required="true" placeholder="Summary required"></textarea>
             </div>
         </div>
 
