@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
         <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="app.css">
         <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" rel="stylesheet" type="text/css">
@@ -29,11 +30,9 @@
                         <a class="navbar-brand" href="#" style="padding-top: 5px"><h4><strong>REST</strong>HEART<span style="font-size:12px">®</span></h4></a> </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse" id="scrollTarget" ng-controller="LoginCtrl">
                         <ul class="nav navbar-nav pull-right">
-                            <li><a href="#"><i class="icon-comment"></i>Home</a> </li>
-                            <li class="active"><a href="#"><i class="icon-thumbs-up"></i>Blog</a> </li>
-                            <li><a href="docs/v0.9"><i class="icon-star"></i>Docs</a> </li>
-                            <li class="disabled"><a href="#"><i class="icon-popup-1"></i>Download</a></li>
-                            <li ng-show="auth"><a href="#" ng-click="logout()">Logout</a></li>
+                            <li class="active"><a href="#/"><i class="icon-thumbs-up"></i>Posts</a> </li>
+                            <li ng-hide="isLoggedin()"><a href="#/login"><i class="icon-star"></i>Login</a> </li>
+                            <li ng-show="isLoggedin()"><a href="#" ng-click="logout()">Logout</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -42,14 +41,13 @@
 
         <div ng-view></div>
 
-        <!-- In production use:
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-        -->
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
         <script src="bower_components/angular-base64/angular-base64.min.js"></script>
+        <script src='bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
+        <script src='bower_components/textAngular/dist/textAngular.min.js'></script>
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script src="app.js"></script>

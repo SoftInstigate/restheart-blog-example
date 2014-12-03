@@ -5,7 +5,8 @@ angular.module('blogApp', [
     'ngRoute',
     'blogApp.posts',
     'blogApp.edit',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'textAngular'
 ])
         .config(['$routeProvider', '$httpProvider', 'localStorageServiceProvider', function ($routeProvider, $httpProvider, localStorageServiceProvider) {
                 $routeProvider.otherwise({redirectTo: '/posts'});
@@ -18,4 +19,5 @@ angular.module('blogApp', [
                 $httpProvider.defaults.headers.common["No-Auth-Challenge"] = "true";
                 
                 localStorageServiceProvider.setStorageType('sessionStorage');
+                localStorageServiceProvider.setPrefix('rh-blog');
             }]);

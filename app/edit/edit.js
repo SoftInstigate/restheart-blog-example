@@ -53,7 +53,6 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                 });
             }])
 
-
         .controller('PostEditCtrl', ['$scope', '$routeParams', '$http', '$compile', 'localStorageService', '$q', '$location', function ($scope, $routeParams, $http, $compile, localStorageService, $q, $location) {
                 console.log('*************** PostEditCtrl');
 
@@ -63,44 +62,42 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     $location.path('/login');
                     return;
                 }
-                else
-                    $scope.auth = true;
 
                 $http.defaults.headers.common["Authorization"] = 'Basic ' + credentials;
 
                 //promise to return
                 var deferred = $q.defer();
 
-                var request = $http.get('http://127.0.0.1:8080/blog/posts/' + $routeParams.postId, {});
+                var request = $http.get('http://127.0.0.1:8080/data/blog/posts/' + $routeParams.postId, {});
 
                 request.success(function (data, status) {
-                    console.log("GET " + 'http://127.0.0.1:8080/blog/posts/' + $routeParams.postId);
+                    console.log("GET " + 'http://127.0.0.1:8080/data/blog/posts/' + $routeParams.postId);
 
                     $scope.post = data;
-                    $scope.content = $compile(data);
+
                     //resolve promise
                     deferred.resolve();
                 });
             }])
-        
+
         .controller('LoginCtrl', ['$scope', '$routeParams', '$location', '$http', 'localStorageService', '$q', '$base64', function ($scope, $routeParams, $location, $http, localStorageService, $q, $base64) {
                 console.log('*************** LoginCtrl');
-                        
-                var _credentials = localStorageService.get('creds');
 
-                if (angular.isUndefined(_credentials) || _credentials === null)
-                {
-                    $scope.auth = false;
-                }
-                else
-                {
-                    $scope.auth = true;
+                $scope.isLoggedin = function () {
+                    var _credentials = localStorageService.get('creds');
+
+                    if (angular.isUndefined(_credentials) || _credentials === null) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
                 }
 
                 $scope.login = function () {
                     $scope.authError = false;
                     $scope.authWrongCredentials = false;
-                    
+
                     var credentials = $base64.encode($scope.cred.id + ":" + $scope.cred.pwd);
 
                     console.log('*** authorization header: ' + credentials);
@@ -114,26 +111,20 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
 
                     request.success(function (data, status, header, config) {
                         console.log('GET http://127.0.0.1:8080/_logic/roles/mine');
-                        
-                        if (!angular.isUndefined(data) && data !== null && !angular.isUndefined(data.authenticated) && data.authenticated)
-                        {
+
+                        if (!angular.isUndefined(data) && data !== null && !angular.isUndefined(data.authenticated) && data.authenticated) {
                             console.log('*** authenticated.');
                             console.log('*** user roles: ' + data.roles);
                             localStorageService.set('creds', credentials);
-                            $scope.auth = true;
-                            deferred.resolve();
+
+                            $location.path('/posts/');
                             
-                            if ($routeParams.postId)
-                            {
-                                $location.path('/edit/' + $routeParams.postId);
-                            }
+                            deferred.resolve();
                         }
-                        else
-                        {
+                        else {
                             console.log('*** authentication failed. wrong credentials.');
                             localStorageService.remove('creds');
                             delete $http.defaults.headers.common["Authorization"];
-                            $scope.auth = false;
                             $scope.authWrongCredentials = true;
 
                             //reject promise
@@ -150,7 +141,6 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
 
                         localStorageService.remove('creds');
                         delete $http.defaults.headers.common["Authorization"];
-                        $scope.auth = false;
                         $scope.authError = true;
 
                         //reject promise
