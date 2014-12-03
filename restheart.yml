@@ -72,7 +72,7 @@ static-resources-mounts:
       welcome-file: browser.html
       secured: false
       embedded: true
-    - what: ../../restheart-blog-example/app
+    - what: app
       where: /blog
       welcome-file: index.html
       secured: false
@@ -102,7 +102,7 @@ application-logic-mounts:
           url: /_logic/roles/mine
           send-challenge: false
           idm-implementation-class: com.softinstigate.restheart.security.impl.SimpleFileIdentityManager
-          idm-conf-file: ../../restheart-blog-example/restheart-security.yml
+          idm-conf-file: restheart-security.yml
 
 ### security 
 
@@ -116,10 +116,10 @@ application-logic-mounts:
 
 idm:    
     implementation-class: com.softinstigate.restheart.security.impl.SimpleFileIdentityManager
-    conf-file: ../../restheart-blog-example/restheart-security.yml
+    conf-file: restheart-security.yml
 access-manager:    
     implementation-class: com.softinstigate.restheart.security.impl.SimpleAccessManager
-    conf-file: ../../restheart-blog-example/restheart-security.yml
+    conf-file: restheart-security.yml
     
 #### logging
 
