@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li><a href="#posts">Posts</a></li>
+        <li><a class="active">{{post.title}}</a></li>
+    </ol>
+</div>
+
+
+<div class="container">
+    <div class="row" style="margin-bottom: 20px">
+        <div class="input-group">
+            <span class="input-group-addon">#</span>
+            <input type="text" class="form-control" ng-model="post.title" placeholder="Title">
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px">
+        <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input type="text" class="form-control" ng-model="post.author" placeholder="Author">
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 20px">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-danger" ng-click="cancel">Cancel</button>
+            <button type="button" class="btn btn-info">Save</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div text-angular ng-model="post.content"></div>
+    </div>
+</div>
