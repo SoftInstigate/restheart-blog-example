@@ -14,23 +14,26 @@
             <p>Create the posts collection: <code>curl -u admin:changeit -i -X PUT http://127.0.0.1:8080/data/blog/posts -H "Content-Type: application/json"</code></p>
         </div>
     </div>
-
+    
     <div class="row" ng-hide="errorNotFound">
-        <div ng-repeat="post in posts._embedded['rh:doc']">
-
-            <div class="col-sm-6">
-                <div class="well well-lg" >
-                    <div class="panel-body">
-                        <p class="lead"><a href="#posts/{{post._id}}">{{post.title}}</a></p>
-                        <p>published on {{post._created_on| date}} by <strong>{{post.author}}</strong></p>
-                        <p>{{post.summary}}</p>
-                    </div>
-                    <div class="footer pull-right">
-                        <a href="#posts/{{post._id}}">read more &rightarrow;<i class="icon-flash"></i></a>
+        <div ng-repeat-start="post in posts._embedded['rh:doc']">
+            <div ng-class="row">
+                <div class="col-sm-6">
+                    <div class="well well-lg" >
+                        <div class="panel-body">
+                            <p class="lead"><a href="#posts/{{post._id.$oid}}">{{post.title}}</a></p>
+                            <p>published on {{post._created_on| date}} by <strong>{{post.author}}</strong></p>
+                            <p>{{post.summary}}</p>
+                        </div>
+                        <div class="footer pull-right">
+                            <a href="#posts/{{post._id.$oid}}">read more &rightarrow;<i class="icon-flash"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="clearfix" ng-if="($index + 1) % 2 === 0"></div>    
         </div>
+        <div ng-repeat-end></div>
     </div>
 
     <nav ng-hide="errorNotFound">

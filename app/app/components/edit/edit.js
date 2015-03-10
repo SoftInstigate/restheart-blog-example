@@ -51,12 +51,12 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     if (angular.isUndefined($scope.post) || angular.isUndefined($scope.post._id)) // new post
                         $location.path('/posts');
                     else // existing post
-                        $location.path('/posts/' + $scope.post._id);
+                        $location.path('/posts/' + $scope.post._id.$oid);
                 };
 
                 $scope.save = function () {
                     if (!angular.isUndefined($scope.post) && !angular.isUndefined($scope.post._etag)) {
-                        $http.defaults.headers.common["If-Match"] = $scope.post._etag;
+                        $http.defaults.headers.common["If-Match"] = $scope.post._etag.$oid;
                     }
                     
                     var request = $http.post('http://127.0.0.1:8080/data/blog/posts/', $scope.post);
@@ -67,7 +67,7 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                         var loc = headers('Location');
 
                         if (angular.isUndefined(loc)) { // existing post
-                            $location.path('/posts/' + $scope.post._id);
+                            $location.path('/posts/' + $scope.post._id.$oid);
                         } else { // new post
                             $location.path(loc);
                         }

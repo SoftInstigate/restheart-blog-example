@@ -56,10 +56,10 @@ angular.module('blogApp.posts', ['ngRoute'])
                     //promise to return
                     var deferred = $q.defer();
 
-                    var request = $http.get('http://127.0.0.1:8080/data/blog/posts?sort_by=-_created_on&count&pagesize=4&page=' + $scope.currentPage, {});
+                    var request = $http.get('http://127.0.0.1:8080/data/blog/posts?sort_by=-_id&count&pagesize=4&page=' + $scope.currentPage, {});
 
                     request.success(function (data) {
-                        console.log('GET http://127.0.0.1:8080/data/blog/posts?sort_by=-_created_on&count&pagesize=4&page=' + $scope.currentPage);
+                        console.log('GET http://127.0.0.1:8080/data/blog/posts?sort_by=-_id&count&pagesize=4&page=' + $scope.currentPage);
                         $scope.posts = data;
                         $scope.pages = data._total_pages;
 

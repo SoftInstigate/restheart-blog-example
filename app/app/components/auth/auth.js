@@ -2,7 +2,7 @@
 
 angular.module('blogApp.auth', ['ngRoute', 'base64'])
 
-.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+        .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
                 $routeProvider
                         .when('/login', {
                             templateUrl: 'app/components/auth/login.html',
@@ -28,7 +28,7 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                     $scope.authError = false;
                     $scope.authWrongCredentials = false;
 
-                    var credentials = $base64.encode($scope.cred.id + ":" + $scope.cred.pwd);
+                    var credentials = encodeCredentials($scope.cred.id, $scope.cred.pwd);
 
                     console.log('*** authorization header: ' + credentials);
 
@@ -39,16 +39,25 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
 
                     var request = $http.get('http://127.0.0.1:8080/_logic/roles/mine', {});
 
-                    request.success(function (data, status, header, config) {
+                    request.success(function (data, status, headers, config) {
                         console.log('GET http://127.0.0.1:8080/_logic/roles/mine');
 
                         if (!angular.isUndefined(data) && data !== null && !angular.isUndefined(data.authenticated) && data.authenticated) {
                             console.log('*** authenticated.');
                             console.log('*** user roles: ' + data.roles);
-                            localStorageService.set('creds', credentials);
-
-                            $location.path('/posts/');
                             
+                            var authToken = headers('Auth-Token');
+                            
+                            if (authToken === null) {
+                                localStorageService.set('creds', credentials);
+                                console.log('*** WARNING: credentials stored in local storage. did you enabled restheart auth-token?');
+                            } else {
+                                localStorageService.set('creds', encodeCredentials($scope.cred.id, authToken));
+                                console.log('*** auth token stored in local storage: ' + authToken);
+                            }
+                            
+                            $location.path('/posts/');
+
                             deferred.resolve();
                         }
                         else {
@@ -82,5 +91,9 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                     localStorageService.remove('creds');
                     delete $http.defaults.headers.common["Authorization"];
                     $scope.auth = false;
+                };
+
+                function encodeCredentials(id, pwd) {
+                    return $base64.encode(id + ":" + pwd);
                 };
             }]);
