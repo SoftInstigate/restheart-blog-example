@@ -47,6 +47,20 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     deferred.resolve();
                 });
 
+                request.error(function (data, status) {
+                    if (status === 401) {
+                        $scope.sessionExpired = true;
+                        localStorageService.remove('userid');
+                        localStorageService.remove('creds');
+                        delete $http.defaults.headers.common["Authorization"];
+                        console.log("session expired");
+                        $location.path('/posts/' + $routeParams.postId);
+                    }
+
+                    //resolve promise
+                    deferred.resolve();
+                });
+
                 $scope.cancel = function () {
                     if (angular.isUndefined($scope.post) || angular.isUndefined($scope.post._id)) // new post
                         $location.path('/posts');
@@ -79,6 +93,12 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     request.error(function (data, status) {
                         if (status === 412) {
                             $scope.saveGhostWrite = true;
+                        } else if (status === 401) {
+                            $scope.sessionExpired = true;
+                            localStorageService.remove('userid');
+                            localStorageService.remove('creds');
+                            delete $http.defaults.headers.common["Authorization"];
+                            $location.path('/login');
                         } else {
                             $scope.saveError = true;
                         }

@@ -47,18 +47,18 @@ use-embedded-keystore: true
 mongo-servers:
     - host: 127.0.0.1
       port: 27017
-      
+
 # Provide mongodb users credentials with mongo-credentials.
 #mongo-credentials:
 #    - auth-db: admin
 #      user: admin
 #      password: adminadmin
-      
+
 # Use mongo-mounts to bind URls to mongodb resources using the out-of-the-box URL rewrite feature.
 mongo-mounts:
     - what: "*"
       where: /data
-      
+
 #### static web resources
 
 # static web resources to bind to the specified URL.
@@ -87,7 +87,7 @@ static-resources-mounts:
 
 # In the following example two built-in application logic handlers are defined:
 # PingHandler bound to /_logic/ping that implements a simple ping service
-# GetRoleHandler bound to /_logic/roles/mine that returns the current user authentication status and eventually its roles
+# GetRoleHandler bound to /_logic/roles mine that returns the current user authentication status and eventually its roles
 
 application-logic-mounts:
     - what: org.restheart.handlers.applicationlogic.PingHandler
@@ -96,13 +96,10 @@ application-logic-mounts:
       args:
           msg: "ciao from the restheart team"
     - what: org.restheart.handlers.applicationlogic.GetRoleHandler
-      where: /roles/mine
+      where: /roles
       secured: false
       args:
-          url: /_logic/roles/mine
-          send-challenge: false
-          idm-implementation-class: org.restheart.security.impl.SimpleFileIdentityManager
-          idm-conf-file: restheart-security.yml
+          url: /_logic/roles
 
 ### security 
 
@@ -126,10 +123,10 @@ access-manager:
 # note: you need to pay attention to the authentitcation token in case of multi-node deployments (horizontal scalability).
 # in this case, you need to either disable it or use a load balancer with the sticky session option 
 # or use a distributed auth token cache implementation (not provided in the current version).
- 
+
 auth-token-enabled: true
 auth-token-ttl: 15
- 
+
 #### logging
 
 # enable-log-console: true => log messages to the console (default value: true)
@@ -174,10 +171,10 @@ eager-cursor-allocation-random-max-cursors: 20
 eager-cursor-allocation-random-slice-min-width: 1000
 
 # the number of I/O threads created for non-blocking tasks. at least 2. suggested value: core*2
-io-threads: 2 
+io-threads: 2
 
 # the number of threads created for blocking tasks (such as ones involving db access). suggested value: core*16
-worker-threads: 8 
+worker-threads: 8
 
 # use 16k buffers for best performance - as in linux 16k is generally the default amount of data that can be sent in a single write() call
 buffer-size: 16384

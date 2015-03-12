@@ -1,3 +1,7 @@
+### requirements
+
+RESTHeart version required: 0.10.1 at least 
+
 ### Install Dependencies
 
     $ bower install
