@@ -47,16 +47,30 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     deferred.resolve();
                 });
 
+                request.error(function (data, status) {
+                    if (status === 401) {
+                        $scope.sessionExpired = true;
+                        localStorageService.remove('userid');
+                        localStorageService.remove('creds');
+                        delete $http.defaults.headers.common["Authorization"];
+                        console.log("session expired");
+                        $location.path('/posts/' + $routeParams.postId);
+                    }
+
+                    //resolve promise
+                    deferred.resolve();
+                });
+
                 $scope.cancel = function () {
                     if (angular.isUndefined($scope.post) || angular.isUndefined($scope.post._id)) // new post
                         $location.path('/posts');
                     else // existing post
-                        $location.path('/posts/' + $scope.post._id);
+                        $location.path('/posts/' + $scope.post._id.$oid);
                 };
 
                 $scope.save = function () {
                     if (!angular.isUndefined($scope.post) && !angular.isUndefined($scope.post._etag)) {
-                        $http.defaults.headers.common["If-Match"] = $scope.post._etag;
+                        $http.defaults.headers.common["If-Match"] = $scope.post._etag.$oid;
                     }
                     
                     var request = $http.post('http://127.0.0.1:8080/data/blog/posts/', $scope.post);
@@ -67,7 +81,7 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                         var loc = headers('Location');
 
                         if (angular.isUndefined(loc)) { // existing post
-                            $location.path('/posts/' + $scope.post._id);
+                            $location.path('/posts/' + $scope.post._id.$oid);
                         } else { // new post
                             $location.path(loc);
                         }
@@ -79,6 +93,12 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                     request.error(function (data, status) {
                         if (status === 412) {
                             $scope.saveGhostWrite = true;
+                        } else if (status === 401) {
+                            $scope.sessionExpired = true;
+                            localStorageService.remove('userid');
+                            localStorageService.remove('creds');
+                            delete $http.defaults.headers.common["Authorization"];
+                            $location.path('/login');
                         } else {
                             $scope.saveError = true;
                         }

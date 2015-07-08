@@ -2,7 +2,7 @@
 
 angular.module('blogApp.auth', ['ngRoute', 'base64'])
 
-.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+        .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
                 $routeProvider
                         .when('/login', {
                             templateUrl: 'app/components/auth/login.html',
@@ -28,7 +28,7 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                     $scope.authError = false;
                     $scope.authWrongCredentials = false;
 
-                    var credentials = $base64.encode($scope.cred.id + ":" + $scope.cred.pwd);
+                    var credentials = encodeCredentials($scope.cred.id, $scope.cred.pwd);
 
                     console.log('*** authorization header: ' + credentials);
 
@@ -37,22 +37,34 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                     //promise to return
                     var deferred = $q.defer();
 
-                    var request = $http.get('http://127.0.0.1:8080/_logic/roles/mine', {});
+                    var request = $http.get('http://127.0.0.1:8080/_logic/roles/' + $scope.cred.id, {});
 
-                    request.success(function (data, status, header, config) {
-                        console.log('GET http://127.0.0.1:8080/_logic/roles/mine');
+                    request.success(function (data, status, headers, config) {
+                        console.log('GET http://127.0.0.1:8080/_logic/roles/' + $scope.cred.id);
 
                         if (!angular.isUndefined(data) && data !== null && !angular.isUndefined(data.authenticated) && data.authenticated) {
                             console.log('*** authenticated.');
                             console.log('*** user roles: ' + data.roles);
-                            localStorageService.set('creds', credentials);
-
-                            $location.path('/posts/');
                             
+                            var authToken = headers('Auth-Token');
+                            
+                            if (authToken === null) {
+                                localStorageService.set('userid', $scope.cred.id);
+                                localStorageService.set('creds', credentials);
+                                console.log('*** WARNING: credentials stored in local storage. did you enabled restheart auth-token?');
+                            } else {
+                                localStorageService.set('userid', $scope.cred.id);
+                                localStorageService.set('creds', encodeCredentials($scope.cred.id, authToken));
+                                console.log('*** auth token stored in local storage: ' + authToken);
+                            }
+                            
+                            $location.path('/posts/');
+
                             deferred.resolve();
                         }
                         else {
                             console.log('*** authentication failed. wrong credentials.');
+                            localStorageService.remove('userid');
                             localStorageService.remove('creds');
                             delete $http.defaults.headers.common["Authorization"];
                             $scope.authWrongCredentials = true;
@@ -69,9 +81,15 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                         console.log(header);
                         console.log(config);
 
+                        localStorageService.remove('userid');
                         localStorageService.remove('creds');
                         delete $http.defaults.headers.common["Authorization"];
-                        $scope.authError = true;
+
+                        if (status == 401) {
+                            $scope.authWrongCredentials = true;
+                        } else {
+                            $scope.authError = true;    
+                        }
 
                         //reject promise
                         deferred.reject('authentication failed..');
@@ -79,8 +97,65 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                 };
 
                 $scope.logout = function () {
-                    localStorageService.remove('creds');
-                    delete $http.defaults.headers.common["Authorization"];
-                    $scope.auth = false;
+                    console.log('***** logging out');
+
+                    if (true) {
+                        // this code is just to logout the client 
+                        // without invalidating the auth token (other user clients can keep working)
+                        
+                        localStorageService.remove('userid');
+                        localStorageService.remove('creds');
+                        $scope.auth = false;
+                    } else {
+                        // this code is to invalidate the auth token
+
+                        var userid = localStorageService.get('userid');
+
+                        // invalidate auth token
+                        if (userid !== null) {
+                            //promise to return
+                            var deferred = $q.defer();
+
+                            var credentials = localStorageService.get('creds');
+
+                            console.log('*** authorization header: ' + credentials);
+
+                            $http.defaults.headers.common["Authorization"] = 'Basic ' + credentials;
+
+                            var request = $http.delete('http://127.0.0.1:8080/_authtokens/' + userid, {});
+                        
+                            request.success(function (data, status, headers, config) {
+                                console.log('***** ' + status);
+                                console.log('DELETE http://127.0.0.1:8080/_authtokens/' + userid);
+
+                                delete $http.defaults.headers.common["Authorization"];
+                            
+                                localStorageService.remove('userid');
+                                localStorageService.remove('creds');
+                                $scope.auth = false;
+
+                                deferred.resolve();
+                            });
+
+                            request.error(function (data, status, header, config) {
+                                console.log('*** auth token invalidation failed..');
+
+                                //reject promise
+                                deferred.reject('auth token invalidation failed..');
+                                console.log(status);
+                                console.log(data);
+                                console.log(header);
+                                console.log(config);
+
+                                localStorageService.remove('userid');
+                                localStorageService.remove('creds');
+                                $scope.auth = false;
+                            });
+                        }
+                    }
+                };
+
+                function encodeCredentials(id, pwd) {
+                    return $base64.encode(id + ":" + pwd);
                 };
             }]);

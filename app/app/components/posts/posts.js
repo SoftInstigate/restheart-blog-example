@@ -56,10 +56,10 @@ angular.module('blogApp.posts', ['ngRoute'])
                     //promise to return
                     var deferred = $q.defer();
 
-                    var request = $http.get('http://127.0.0.1:8080/data/blog/posts?sort_by=-_created_on&count&pagesize=4&page=' + $scope.currentPage, {});
+                    var request = $http.get('http://127.0.0.1:8080/data/blog/posts?sort_by=-_id&count&pagesize=4&page=' + $scope.currentPage, {});
 
                     request.success(function (data) {
-                        console.log('GET http://127.0.0.1:8080/data/blog/posts?sort_by=-_created_on&count&pagesize=4&page=' + $scope.currentPage);
+                        console.log('GET http://127.0.0.1:8080/data/blog/posts?sort_by=-_id&count&pagesize=4&page=' + $scope.currentPage);
                         $scope.posts = data;
                         $scope.pages = data._total_pages;
 
@@ -71,9 +71,17 @@ angular.module('blogApp.posts', ['ngRoute'])
                     request.error(function (data, status) {
                         if (status === 404) {
                             $scope.errorNotFound = true;
-                            //resolve promise
-                            deferred.resolve();
+                        } else if (status === 401) {
+                            $scope.sessionExpired = true;
+                            localStorageService.remove('userid');
+                            localStorageService.remove('creds');
+                            delete $http.defaults.headers.common["Authorization"];
+                            console.log("session expired");
+                            $location.path('/posts');
                         }
+
+                        //resolve promise
+                        deferred.resolve();
                     });
                 };
 
@@ -101,5 +109,16 @@ angular.module('blogApp.posts', ['ngRoute'])
                     $scope.content = $compile(data);
                     //resolve promise
                     deferred.resolve();
+                });
+
+                request.error(function (data, status) {
+                    if (status === 401) {
+                        $scope.sessionExpired = true;
+                        localStorageService.remove('userid');
+                        localStorageService.remove('creds');
+                        delete $http.defaults.headers.common["Authorization"];
+                        console.log("session expired");
+                        $location.path('/posts');
+                    } 
                 });
             }]);
