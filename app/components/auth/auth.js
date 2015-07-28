@@ -5,7 +5,7 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
         .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
                 $routeProvider
                         .when('/login', {
-                            templateUrl: 'app/components/auth/login.html',
+                            templateUrl: 'components/auth/login.html',
                             controller: 'LoginCtrl'
                         });
             }])

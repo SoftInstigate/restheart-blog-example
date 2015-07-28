@@ -5,11 +5,11 @@ angular.module('blogApp.posts', ['ngRoute'])
         .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
                 $routeProvider
                         .when('/posts', {
-                            templateUrl: 'app/components/posts/posts.html',
+                            templateUrl: 'components/posts/posts.html',
                             controller: 'PostsListCtrl'
                         })
                         .when('/posts/:postId', {
-                            templateUrl: 'app/components/posts/post.html',
+                            templateUrl: 'components/posts/post.html',
                             controller: 'PostDetailCtrl'
                         });
 

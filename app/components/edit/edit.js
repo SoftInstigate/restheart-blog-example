@@ -5,11 +5,11 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
         .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
                 $routeProvider
                         .when('/login/:postId', {
-                            templateUrl: 'app/components/edit/login.html',
+                            templateUrl: 'components/edit/login.html',
                             controller: 'LoginCtrl'
                         })
                         .when('/edit/:postId', {
-                            templateUrl: 'app/components/edit/edit.html',
+                            templateUrl: 'components/edit/edit.html',
                             controller: 'PostEditCtrl'
                         });
 
