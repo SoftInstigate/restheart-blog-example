@@ -27,20 +27,20 @@ ajp-port: 8009
 
 # RESTHeart comes with a self-signed certificate that makes straightforward enabling https.
 # Specify use-embedded-keystore: true to use it (this is the default setting).
-# Using the self-signed certificate leads to issues with some clients; 
+# Using the self-signed certificate leads to issues with some clients;
 # for instance, with curl you need to specify the "--insecure" option or you'll get an error message.
 
 use-embedded-keystore: true
 
 # To use your own certificate you need to import it (and eventually the CA certificates chain) into a java keystore
-# and speficy use-embedded-keystore: false and the keystore-file,keystore-password and certpassword configuration properties. 
+# and speficy use-embedded-keystore: false and the keystore-file,keystore-password and certpassword configuration properties.
 # Refer to the java keystore documentation for that.
 
 #keystore-file: /path/to/keystore/file
 #keystore-password: password
 #certpassword: password
 
-#### mongodb 
+#### mongodb
 
 # Secify the ip and port of mongodb with mongo-servers. For mongodb replica set, specify all your servers.
 
@@ -62,7 +62,7 @@ mongo-mounts:
 #### static web resources
 
 # static web resources to bind to the specified URL.
-# the 'what' property is the path of the directory containing the resources. 
+# the 'what' property is the path of the directory containing the resources.
 # the path is either absolute (starting with /) or relative to the restheart.jar directory
 # if embedded is true, the resources are either included in the restheart.jar or in the classpath
 
@@ -96,22 +96,12 @@ application-logic-mounts:
       args:
           msg: "ciao from the restheart team"
     - what: org.restheart.handlers.applicationlogic.GetRoleHandler
-<<<<<<< HEAD
-      where: /roles/mine
-      secured: false
-      args:
-          url: /_logic/roles/mine
-          send-challenge: false
-          idm-implementation-class: org.restheart.security.impl.SimpleFileIdentityManager
-          idm-conf-file: restheart-security.yml
-=======
       where: /roles
       secured: false
       args:
           url: /_logic/roles
->>>>>>> develop
 
-### security 
+### security
 
 # The security is configured by setting:
 
@@ -121,17 +111,17 @@ application-logic-mounts:
 # the provided default implementations of IDM and AM are SimpleFileIdentityManager and SimpleAccessManager.
 # conf-file paths are relative to the restheart.jar file directory
 
-idm:    
+idm:
     implementation-class: org.restheart.security.impl.SimpleFileIdentityManager
     conf-file: restheart-security.yml
-access-manager:    
+access-manager:
     implementation-class: org.restheart.security.impl.SimpleAccessManager
     conf-file: restheart-security.yml
 
 # authentication token
 
 # note: you need to pay attention to the authentitcation token in case of multi-node deployments (horizontal scalability).
-# in this case, you need to either disable it or use a load balancer with the sticky session option 
+# in this case, you need to either disable it or use a load balancer with the sticky session option
 # or use a distributed auth token cache implementation (not provided in the current version).
 
 auth-token-enabled: true
@@ -154,14 +144,14 @@ log-level: INFO
 # In order to save bandwitdth RESTHeart can force requests to support the giz encoding (if not, requests will be rejected)
 force-gzip-encoding: false
 
-# local-cache allows to cache the db and collection properties to drammatically improve performaces. 
+# local-cache allows to cache the db and collection properties to drammatically improve performaces.
 # Without caching, a GET on a document would requires two additional queries to retrieve the db and the collection properties.
-# pay attention to local caching only in case of a multi-node deployments (horizontal scalability). 
-# In this case a change in a db or collection properties would reflect on other nodes at worst after the TTL (cache entries time to live). 
+# pay attention to local caching only in case of a multi-node deployments (horizontal scalability).
+# In this case a change in a db or collection properties would reflect on other nodes at worst after the TTL (cache entries time to live).
 # In most of the cases Dbs and collections properties only change at development time.
 
 local-cache-enabled: true
-# TTL in milliseconds; specify a value < 0 to never expire cached entries 
+# TTL in milliseconds; specify a value < 0 to never expire cached entries
 local-cache-ttl: 1000
 
 # to set a limit for the maximum number of concurrent requests being served
