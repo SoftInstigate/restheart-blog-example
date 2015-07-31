@@ -28,8 +28,8 @@ The application is available at [http://127.0.0.1:8080/blog](http://127.0.0.1:80
 
 ### Initialize the db
 
-If not already done, you'll be asked to initialize the database.
-This is achieved executing the following curl commands from command line:
+The very first time you'll be asked to initialize the database.
+This is achieved executing the following `curl` commands from command line:
 
     $ curl -u admin:changeit -i -X PUT http://127.0.0.1:8080/data/blog -H "Content-Type: application/json"
     $ curl -u admin:changeit -i -X PUT http://127.0.0.1:8080/data/blog/posts -H "Content-Type: application/json"
