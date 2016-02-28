@@ -1,0 +1,27 @@
+## RESTHeart simple security configuration file.
+
+## look at undertow documentation for information about predictates syntax 
+## http://undertow.io/documentation/core/predicates-attributes-handlers.html
+
+## the special role $unauthenticated allows to give permissions without requiring authentication
+
+
+---
+users:
+    - userid: admin
+      password: changeit
+      roles: [admin]
+
+    - userid: editor
+      password: changeit
+      roles: [editor]
+
+permissions:
+    - role: admin
+      predicate: path-prefix[path="/"]
+
+    - role: editor
+      predicate: path-prefix[path="/blog/posts"] and (method[value="GET"] or method[value="POST"] or method[value="PUT"] or method[value="PATCH"])
+
+    - role: $unauthenticated
+      predicate: path-prefix[path="/blog/posts"] and method[value="GET"]
