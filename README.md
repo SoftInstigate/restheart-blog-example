@@ -34,7 +34,19 @@ This is achieved executing the following `curl` commands from command line:
     $ curl -u admin:changeit -i -X PUT http://127.0.0.1:8080/data/blog -H "Content-Type: application/json"
     $ curl -u admin:changeit -i -X PUT http://127.0.0.1:8080/data/blog/posts -H "Content-Type: application/json"
 
+## Run with docker
+
+This is the simplest option. There's a docker-compose.yml which starts both RESTHeart and MongoDB as Docker containers.
+
+   $ docker-compose up
+
+The `docker` folder contains specific configurations for docker.
+
+You still have to initialize the database. If docker run directly on Localhost (Linux box) then the above curl commands works, otherwise if you are running with docker-machine you'l probably have to change the IP to 192.168.99.100
+
+   $ curl -u admin:changeit -i -X PUT http://192.168.99.100:8080/data/blog -H "Content-Type: application/json"
+   $ curl -u admin:changeit -i -X PUT http://192.168.99.100:8080/data/blog/posts -H "Content-Type: application/json"
+
 <hr></hr>
 
 _Made with :heart: by [The SoftInstigate Team](http://www.softinstigate.com/). Follow us on [Twitter](https://twitter.com/softinstigate)_.
-
