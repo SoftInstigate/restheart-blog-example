@@ -7,7 +7,7 @@ services:
       ports:
          - "8080:8080"
       volumes:
-         - .:/opt/restheart/etc
+         - ./docker:/opt/restheart/etc
          - ./app:/opt/restheart/app
       depends_on:
          - mongodb
