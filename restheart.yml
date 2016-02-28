@@ -44,10 +44,7 @@ use-embedded-keystore: true
 
 # Secify the ip and port of mongodb with mongo-servers. For mongodb replica set, specify all your servers.
 
-mongo-servers:
-   # - host: mongodb (use this host with Docker)
-    - host: 127.0.0.1
-      port: 27017
+mongo-uri: mongodb://127.0.0.1
 
 # Provide mongodb users credentials with mongo-credentials.
 #mongo-credentials:

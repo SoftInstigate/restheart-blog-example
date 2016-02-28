@@ -1,0 +1,13 @@
+version: '2'
+services:
+   mongodb:
+      image: mongo:3.2
+   restheart:
+      image: softinstigate/restheart
+      ports:
+         - "8080:8080"
+      volumes:
+         - .:/opt/restheart/etc
+         - ./app:/opt/restheart/app
+      depends_on:
+         - mongodb
