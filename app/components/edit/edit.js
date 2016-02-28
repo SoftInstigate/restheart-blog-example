@@ -36,10 +36,10 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                 //promise to return
                 var deferred = $q.defer();
 
-                var request = $http.get('http://127.0.0.1:8080/data/blog/posts/' + $routeParams.postId, {});
+                var request = $http.get('/data/blog/posts/' + $routeParams.postId, {});
 
                 request.success(function (data, status) {
-                    console.log("GET " + 'http://127.0.0.1:8080/data/blog/posts/' + $routeParams.postId);
+                    console.log("GET " + '/data/blog/posts/' + $routeParams.postId);
 
                     $scope.post = data;
 
@@ -73,10 +73,10 @@ angular.module('blogApp.edit', ['ngRoute', 'base64'])
                         $http.defaults.headers.common["If-Match"] = $scope.post._etag.$oid;
                     }
                     
-                    var request = $http.post('http://127.0.0.1:8080/data/blog/posts/', $scope.post);
+                    var request = $http.post('/data/blog/posts/', $scope.post);
 
                     request.success(function (data, status, headers, config) {
-                        console.log("POST " + 'http://127.0.0.1:8080/data/blog/posts/');
+                        console.log("POST " + '/data/blog/posts/');
 
                         var loc = headers('Location');
 

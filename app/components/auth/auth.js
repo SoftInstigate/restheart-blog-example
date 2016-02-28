@@ -37,17 +37,17 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                     //promise to return
                     var deferred = $q.defer();
 
-                    var request = $http.get('http://127.0.0.1:8080/_logic/roles/' + $scope.cred.id, {});
+                    var request = $http.get('/_logic/roles/' + $scope.cred.id, {});
 
                     request.success(function (data, status, headers, config) {
-                        console.log('GET http://127.0.0.1:8080/_logic/roles/' + $scope.cred.id);
+                        console.log('GET /_logic/roles/' + $scope.cred.id);
 
                         if (!angular.isUndefined(data) && data !== null && !angular.isUndefined(data.authenticated) && data.authenticated) {
                             console.log('*** authenticated.');
                             console.log('*** user roles: ' + data.roles);
-                            
+
                             var authToken = headers('Auth-Token');
-                            
+
                             if (authToken === null) {
                                 localStorageService.set('userid', $scope.cred.id);
                                 localStorageService.set('creds', credentials);
@@ -57,7 +57,7 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                                 localStorageService.set('creds', encodeCredentials($scope.cred.id, authToken));
                                 console.log('*** auth token stored in local storage: ' + authToken);
                             }
-                            
+
                             $location.path('/posts/');
 
                             deferred.resolve();
@@ -88,7 +88,7 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                         if (status == 401) {
                             $scope.authWrongCredentials = true;
                         } else {
-                            $scope.authError = true;    
+                            $scope.authError = true;
                         }
 
                         //reject promise
@@ -100,9 +100,9 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                     console.log('***** logging out');
 
                     if (true) {
-                        // this code is just to logout the client 
+                        // this code is just to logout the client
                         // without invalidating the auth token (other user clients can keep working)
-                        
+
                         localStorageService.remove('userid');
                         localStorageService.remove('creds');
                         $scope.auth = false;
@@ -122,14 +122,14 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
 
                             $http.defaults.headers.common["Authorization"] = 'Basic ' + credentials;
 
-                            var request = $http.delete('http://127.0.0.1:8080/_authtokens/' + userid, {});
-                        
+                            var request = $http.delete('/_authtokens/' + userid, {});
+
                             request.success(function (data, status, headers, config) {
                                 console.log('***** ' + status);
-                                console.log('DELETE http://127.0.0.1:8080/_authtokens/' + userid);
+                                console.log('DELETE /_authtokens/' + userid);
 
                                 delete $http.defaults.headers.common["Authorization"];
-                            
+
                                 localStorageService.remove('userid');
                                 localStorageService.remove('creds');
                                 $scope.auth = false;
