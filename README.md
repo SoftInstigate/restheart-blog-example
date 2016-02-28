@@ -44,8 +44,8 @@ The `docker` folder contains specific configurations for docker.
 
 You still have to initialize the database. If docker run directly on Localhost (Linux box) then the above curl commands works, otherwise if you are running with docker-machine you'l probably have to change the IP to 192.168.99.100
 
-   $ curl -u admin:changeit -i -X PUT http://192.168.99.100:8080/data/blog -H "Content-Type: application/json"
-   $ curl -u admin:changeit -i -X PUT http://192.168.99.100:8080/data/blog/posts -H "Content-Type: application/json"
+    $ curl -u admin:changeit -i -X PUT http://192.168.99.100:8080/data/blog -H "Content-Type: application/json"
+    $ curl -u admin:changeit -i -X PUT http://192.168.99.100:8080/data/blog/posts -H "Content-Type: application/json"
 
 <hr></hr>
 
