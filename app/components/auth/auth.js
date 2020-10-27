@@ -37,10 +37,10 @@ angular.module('blogApp.auth', ['ngRoute', 'base64'])
                     //promise to return
                     var deferred = $q.defer();
 
-                    var request = $http.get('/_logic/roles/' + $scope.cred.id, {});
+                    var request = $http.get('/roles/' + $scope.cred.id, {});
 
                     request.success(function (data, status, headers, config) {
-                        console.log('GET /_logic/roles/' + $scope.cred.id);
+                        console.log('GET /roles/' + $scope.cred.id);
 
                         if (!angular.isUndefined(data) && data !== null && !angular.isUndefined(data.authenticated) && data.authenticated) {
                             console.log('*** authenticated.');

@@ -2,7 +2,7 @@
 
 ### Requirements
 
-RESTHeart version required: 0.10.1 at least.
+RESTHeart version required: 5+ at least.
 
 ### Clone this project locally
 
@@ -13,20 +13,20 @@ RESTHeart version required: 0.10.1 at least.
     $ cd restheart-blog-example
     $ bower install
 
-Donwload the latest [restheart binary distribution](https://github.com/SoftInstigate/restheart/releases/latest) archive, either the `tar.gz` or the `.zip` file.
+Download the latest [restheart binary distribution](https://github.com/SoftInstigate/restheart/releases/latest) archive, either the `tar.gz` or the `.zip` file.
 
-Uncompress the downloaded archive, enter the folder and copy the `restheart.jar` binary file in the blog's main directory `restheart-blog-example` (this is to avoid editing the paths in the configuration file, since these must be relative to the restheart jar file)
+Uncompress the downloaded archive, enter the folder and copy the `restheart.jar` file and `plugins` directory in the blog's main directory `restheart-blog-example`
 
 ### Run the Application
 
 Start MongoDB and RESTHeart (refer to [RESTHEART documentation](http://restheart.org/docs/get-up-and-running.html) for more help)
 
     $ mongod --fork --syslog
-    $ java -server -jar restheart.jar restheart.yml
+    $ java -server -jar restheart.jar restheart.yml -e etc/local.properties
 
 The application is available at [http://127.0.0.1:8080/blog](http://127.0.0.1:8080/blog)
 
-### Initialize the db
+### Init the db
 
 The very first time you'll be asked to initialize the database.
 This is achieved executing the following `curl` commands from command line:

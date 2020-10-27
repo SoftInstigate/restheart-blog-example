@@ -1,0 +1,8 @@
+users:
+    - userid: admin
+      password: changeit
+      roles: [admin]
+
+    - userid: editor
+      password: changeit
+      roles: [editor]

@@ -1,13 +1,14 @@
 version: '2'
 services:
    mongodb:
-      image: mongo:3.2
+      image: mongo:4.2
    restheart:
       image: softinstigate/restheart
+      command: ["--envFile", "/opt/restheart/etc/docker.properties"]
       ports:
          - "8080:8080"
       volumes:
-         - ./docker:/opt/restheart/etc
+         - ./etc:/opt/restheart/etc
          - ./app:/opt/restheart/app
       depends_on:
          - mongodb

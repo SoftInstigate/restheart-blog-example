@@ -1,0 +1,9 @@
+permissions:
+    - role: admin
+      predicate: path-prefix[path="/"]
+
+    - role: editor
+      predicate: path-prefix[path="/data/blog/posts"] and (method[value="GET"] or method[value="POST"] or method[value="PUT"] or method[value="PATCH"])
+
+    - role: $unauthenticated
+      predicate: path-prefix[path="/data/blog/posts"] and method[value="GET"]
